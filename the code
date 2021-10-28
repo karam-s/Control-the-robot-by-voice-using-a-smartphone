@@ -1,0 +1,104 @@
+#define right2 8
+#define rightE 9
+#define left1 6
+#define left2 5
+#define leftE 10
+void Forward();
+void Backward();
+void Left();
+void Right();
+void Stop1();
+bool mov=false;
+unsigned long m=0;
+void setup()
+{
+Serial.begin(9600); //Sets the baud for serial data transmission
+pinMode(left1, OUTPUT);
+pinMode(left2, OUTPUT);
+pinMode(leftE, OUTPUT);
+pinMode(right1, OUTPUT);
+pinMode(right2, OUTPUT);
+pinMode(rightE, OUTPUT);
+delay(1000);
+}
+void loop()
+{
+if(Serial.available() > 0)
+{
+data = Serial.read(); //Read the incoming data & store into data
+switch (data){
+case '1':
+Forward();
+break;
+case '2':
+Backward();
+break;
+case '3':
+Left();
+break;
+case '4':
+Right();
+break;
+case '5':
+Stop1();
+break;
+}
+}
+
+if( mov){
+  if(millis()-m>2000){
+    Stop1();
+   }  
+  
+}
+
+}
+void Forward(){
+digitalWrite(right1,1);
+digitalWrite(right2,0);
+analogWrite(rightE, 255);
+digitalWrite(left1,1);
+digitalWrite(left2,0);
+analogWrite(leftE, 255);
+ mov=true;
+ m=millis();
+}
+void Backward(){
+digitalWrite(right1,0);
+digitalWrite(right2,1);
+analogWrite(rightE, 255);
+digitalWrite(left1,0);
+digitalWrite(left2,1);
+analogWrite(leftE, 255);
+ mov=true;
+ m=millis();
+}
+void Left(){
+digitalWrite(right1,1);
+digitalWrite(right2,0);
+analogWrite(rightE, 255);
+digitalWrite(left1,0);
+digitalWrite(left2,1);
+analogWrite(leftE, 255);
+ mov=true;
+ m=millis();
+}
+void Right(){
+digitalWrite(right1,0);
+digitalWrite(right2,1);
+analogWrite(rightE, 255);
+digitalWrite(left1,1);
+digitalWrite(left2,0);
+analogWrite(leftE, 255);
+ mov=true;
+ m=millis();
+}
+void Stop1(){
+digitalWrite(left1,0);
+digitalWrite(left2,0);
+analogWrite(leftE, 0);
+digitalWrite(right1,0);
+digitalWrite(right2,0);
+analogWrite(rightE, 0);
+ mov=false;
+}
